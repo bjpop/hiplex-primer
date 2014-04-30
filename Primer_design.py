@@ -111,8 +111,11 @@ def main():
         # print out the primers for the best window
         if best_blocks is not None:
             print_best_primers(options, gene_name, exon_id, chr,
-                               exon_start, exon_end, best_blocks)
+                exon_start, exon_end, best_blocks)
     gene_file.close()
+
+    if options.roverfile:
+        options.roverfile.close()
 
 
 class GeneFile(object):
@@ -677,7 +680,6 @@ def print_blocksize_distribution():
 
 def print_best_primers(options, gene_name, exon_id, chr, exon_start, exon_end, scored_blocks):
     csv_file = options.idtfile
-    rover_file = options.roverfile
     primer_name_prefix = gene_name + '_' + str(exon_id) + '_'
     print('-' * banner_width)
     print('gene: %s, exon: %s, %s:%d-%d' % (gene_name, exon_id, chr, exon_start, exon_end))
@@ -706,8 +708,8 @@ def print_best_primers(options, gene_name, exon_id, chr, exon_start, exon_end, s
         
         # generate the ROVER compatible input file (tab delimited format)
         # (compliant to BED file format)
-        rover_file.write(chr + '\t' + str(block.start) + '\t' + str(block.end) + '\n')
-        rover_file.flush()
+        if options.roverfile:
+            rover_file.write('\t'.join([chr, str(block.start), str(block.end), primer_name_forward, primer_name_reverse]) + '\n')
 
 #def print_best_primers(csv_file, gene_name, exon_id, chr, exon_start, exon_end, scored_blocks):
 #    #global block_sizes
