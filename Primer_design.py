@@ -709,7 +709,7 @@ def print_best_primers(options, gene_name, exon_id, chr, exon_start, exon_end, s
         # generate the ROVER compatible input file (tab delimited format)
         # (compliant to BED file format)
         if options.roverfile:
-            rover_file.write('\t'.join([chr, str(block.start), str(block.end), primer_name_forward, primer_name_reverse]) + '\n')
+            options.roverfile.write('\t'.join([chr, str(block.start), str(block.end), primer_name_forward, primer_name_reverse]) + '\n')
 
 #def print_best_primers(csv_file, gene_name, exon_id, chr, exon_start, exon_end, scored_blocks):
 #    #global block_sizes
